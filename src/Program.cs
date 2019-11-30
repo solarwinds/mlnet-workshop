@@ -26,6 +26,9 @@ namespace Anomalies
                 Observation[] actual = observations.Skip(observations.Length - horizon).ToArray();
 
                 var forecasts = new List<ForecastDetails>();
+                Observation[] linearRegressionForecast = LinearRegressionForecaster
+                    .Forecast(historical, horizon, timeSeries.Interval);
+                forecasts.Add(new ForecastDetails("Linear Regression", linearRegressionForecast));
 
                 var analysis = new TimeSeriesAnalysis(timeSeries, historical, actual, forecasts);
                 yield return analysis;
