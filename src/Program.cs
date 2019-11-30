@@ -32,6 +32,10 @@ namespace Anomalies
                 RegressionMetrics linearRegressionMetrics = ForecastScorer.Evaluate(actual, linearRegressionForecast);
                 forecasts.Add(new ForecastDetails("Linear Regression", linearRegressionForecast, linearRegressionMetrics));
 
+                Observation[] ssaForecast = SsaForecaster.Forecast(historical, horizon, timeSeries.Interval);
+                RegressionMetrics ssaMetrics = ForecastScorer.Evaluate(actual, ssaForecast);
+                forecasts.Add(new ForecastDetails("SSA", ssaForecast, ssaMetrics));
+
                 var analysis = new TimeSeriesAnalysis(timeSeries, historical, actual, forecasts);
                 yield return analysis;
             }
