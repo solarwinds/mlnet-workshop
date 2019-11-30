@@ -11,7 +11,7 @@ namespace Anomalies
         static void Main(string[] args)
         {
             TimeSeries[] stockSeries = StockLoader.Load();
-            IEnumerable<TimeSeriesAnalysis> analysisResults = Analyze(stockSeries);
+            TimeSeriesAnalysis[] analysisResults = Analyze(stockSeries).ToArray();
             ShowCharts(analysisResults);
             Console.WriteLine("Finished!");
         }
@@ -37,7 +37,7 @@ namespace Anomalies
             }
         }
 
-        private static void ShowCharts(IEnumerable<TimeSeriesAnalysis> analysisResults)
+        private static void ShowCharts(TimeSeriesAnalysis[] analysisResults)
         {
             var charts = new List<PlotlyChart>();
 
@@ -46,6 +46,9 @@ namespace Anomalies
                 PlotlyChart chart = ChartBuilder.BuildChart(analysis);
                 charts.Add(chart);
             }
+
+            var histogram = HistogramBuilder.BuildHistogram("Stocks", analysisResults);
+            charts.Add(histogram);
 
             Chart.ShowAll(charts);
         }
