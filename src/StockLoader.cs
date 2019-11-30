@@ -33,7 +33,8 @@ namespace Anomalies
                 .Select(group => new TimeSeries(
                     name: group.Key,
                     observations: group.Select(s => s.ToObservation()),
-                    interval: TimeSpan.FromDays(1)))
+                    interval: TimeSpan.FromDays(1),
+                    group: "Stocks"))
                 .ToArray();
 
             return timeSeriesList;
