@@ -16,7 +16,14 @@ namespace Anomalies
 
         private static IEnumerable<Graph.Trace> BuildTraces(TimeSeriesAnalysis analysis)
         {
-            yield return BuildTrace("Historical", analysis.TimeSeries.Observations);
+            yield return BuildTrace("Historical", analysis.Historical);
+            yield return BuildTrace("Actual", analysis.Actual);
+
+            foreach (ForecastDetails forecastDetails in analysis.Forecasts)
+            {
+                string name = $"{forecastDetails.AlgorithmName} Forecast";
+                yield return BuildTrace(name, forecastDetails.Forecast);
+            }
         }
 
         private static Graph.Trace BuildTrace(string name, IEnumerable<Observation> observations)
