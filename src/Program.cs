@@ -6,7 +6,8 @@ namespace Anomalies
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            TimeSeries[] stockSeries = StockLoader.Load();
+            Console.WriteLine("Finished!");
         }
     }
 }
