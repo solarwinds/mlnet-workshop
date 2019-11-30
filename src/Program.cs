@@ -21,7 +21,7 @@ namespace Anomalies
 
             foreach (TimeSeries timeSeries in timeSeriesList)
             {
-                Observation[] observations = timeSeries.Observations;
+                Observation[] observations = GapFiller.FillGaps(timeSeries.Observations, timeSeries.Interval).ToArray();
                 Observation[] historical = observations.Take(observations.Length - horizon).ToArray();
                 Observation[] actual = observations.Skip(observations.Length - horizon).ToArray();
 
