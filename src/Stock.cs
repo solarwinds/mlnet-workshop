@@ -12,5 +12,14 @@ namespace Anomalies
         [LoadColumn(4)] public float High;
         [LoadColumn(5)] public float Low;
         [LoadColumn(6)] public float Volume;
+
+        internal Observation ToObservation()
+        {
+            return new Observation
+            {
+                Date = Date,
+                Value = Close
+            };
+        }
     }
 }
