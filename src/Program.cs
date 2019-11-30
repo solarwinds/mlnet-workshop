@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.ML.Data;
@@ -11,7 +11,9 @@ namespace Anomalies
         static void Main(string[] args)
         {
             TimeSeries[] stockSeries = StockLoader.Load();
-            TimeSeriesAnalysis[] analysisResults = Analyze(stockSeries).ToArray();
+            TimeSeries[] waitTimeSeries = WaitTimeLoader.Load();
+            TimeSeries[] timeSeriesList = waitTimeSeries.Concat(stockSeries).ToArray();
+            TimeSeriesAnalysis[] analysisResults = Analyze(timeSeriesList).ToArray();
             ShowCharts(analysisResults);
             Console.WriteLine("Finished!");
         }
