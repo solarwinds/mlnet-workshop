@@ -32,7 +32,8 @@ namespace Anomalies
                 .ToLookup(stock => stock.Name)
                 .Select(group => new TimeSeries(
                     name: group.Key,
-                    observations: group.Select(s => s.ToObservation())))
+                    observations: group.Select(s => s.ToObservation()),
+                    interval: TimeSpan.FromDays(1)))
                 .ToArray();
 
             return timeSeriesList;
