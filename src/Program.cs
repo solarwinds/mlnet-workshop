@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.ML.Data;
 using XPlot.Plotly;
 
 namespace Anomalies
@@ -28,7 +29,8 @@ namespace Anomalies
                 var forecasts = new List<ForecastDetails>();
                 Observation[] linearRegressionForecast = LinearRegressionForecaster
                     .Forecast(historical, horizon, timeSeries.Interval);
-                forecasts.Add(new ForecastDetails("Linear Regression", linearRegressionForecast));
+                RegressionMetrics linearRegressionMetrics = ForecastScorer.Evaluate(actual, linearRegressionForecast);
+                forecasts.Add(new ForecastDetails("Linear Regression", linearRegressionForecast, linearRegressionMetrics));
 
                 var analysis = new TimeSeriesAnalysis(timeSeries, historical, actual, forecasts);
                 yield return analysis;
