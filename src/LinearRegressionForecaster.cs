@@ -8,6 +8,13 @@ namespace Anomalies
     {
         public static Observation[] Forecast(Observation[] observations, int horizon, TimeSpan interval)
         {
+            // Use only the most recent observations.
+            int recentLimit = 5 * horizon;
+            if (observations.Length > recentLimit)
+            {
+                observations = observations.Skip(observations.Length - recentLimit).ToArray();
+            }
+
             // Convert the observations into (x,y) points.
             float[] x = observations.Select(o => (float)o.Date.Ticks).ToArray();
             float[] y = observations.Select(o => o.Value).ToArray();
