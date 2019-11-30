@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.ML.Data;
@@ -53,8 +53,11 @@ namespace Anomalies
                 charts.Add(chart);
             }
 
-            var histogram = HistogramBuilder.BuildHistogram("Stocks", analysisResults);
-            charts.Add(histogram);
+            foreach (IGrouping<string, TimeSeriesAnalysis> analysisGroup in analysisResults.ToLookup(a => a.TimeSeries.Group))
+            {
+                PlotlyChart histogram = HistogramBuilder.BuildHistogram(analysisGroup.Key, analysisGroup.ToList());
+                charts.Add(histogram);
+            }
 
             Chart.ShowAll(charts);
         }
