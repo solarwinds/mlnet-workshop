@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using XPlot.Plotly;
 
 namespace Anomalies
@@ -16,9 +17,17 @@ namespace Anomalies
 
         private static IEnumerable<TimeSeriesAnalysis> Analyze(IEnumerable<TimeSeries> timeSeriesList)
         {
+            const int horizon = 100;
+
             foreach (TimeSeries timeSeries in timeSeriesList)
             {
-                var analysis = new TimeSeriesAnalysis(timeSeries);
+                Observation[] observations = timeSeries.Observations;
+                Observation[] historical = observations.Take(observations.Length - horizon).ToArray();
+                Observation[] actual = observations.Skip(observations.Length - horizon).ToArray();
+
+                var forecasts = new List<ForecastDetails>();
+
+                var analysis = new TimeSeriesAnalysis(timeSeries, historical, actual, forecasts);
                 yield return analysis;
             }
         }
